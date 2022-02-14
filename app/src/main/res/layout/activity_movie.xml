@@ -33,6 +33,7 @@
                 android:id="@+id/movieToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:titleTextColor="@color/white"
                 tools:title="Movie name" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

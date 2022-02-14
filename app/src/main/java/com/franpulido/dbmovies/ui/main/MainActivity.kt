@@ -1,21 +1,25 @@
 package com.franpulido.dbmovies.ui.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.databinding.ActivityMainBinding
-import com.franpulido.dbmovies.ui.common.startActivity
 import com.franpulido.dbmovies.ui.detail.MovieActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private var menuItemAlpha: MenuItem? = null
+    private var menuItemVote: MenuItem? = null
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: MoviesAdapter
     private val viewModel: MainViewModel by viewModels()
@@ -35,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        menuItemVote = menu.findItem(R.id.menu_sort_vote)
+        menuItemAlpha = menu.findItem(R.id.menu_sort_alpha)
         return true
     }
 
@@ -42,6 +48,14 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menu_info -> {
                 InfoBottomSheetFragment.newInstance().show(supportFragmentManager, "")
+                true
+            }
+            R.id.menu_sort_vote -> {
+                viewModel.sortByVote()
+                true
+            }
+            R.id.menu_sort_alpha -> {
+                viewModel.sortByAlpha()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -54,12 +68,37 @@ class MainActivity : AppCompatActivity() {
 
         when (model) {
             is MainViewModel.UiModel.Content -> adapter.movies = model.movies
-            is MainViewModel.UiModel.Navigation -> startActivity<MovieActivity> {
-                putExtra(MovieActivity.MOVIE, model.movie.id)
+            is MainViewModel.UiModel.Navigation -> {
+                val intent = Intent(this, MovieActivity::class.java)
+                intent.putExtra(MovieActivity.MOVIE, model.movie.id)
+                launchSomeActivity.launch(intent)
             }
             MainViewModel.UiModel.Init -> viewModel.initUi()
             MainViewModel.UiModel.Error -> binding.layoutError.viewError.visibility = View.VISIBLE
+            MainViewModel.UiModel.HideIconAlpha -> {
+                menuItemAlpha?.isEnabled = false
+                menuItemAlpha?.isVisible = false
+            }
+            MainViewModel.UiModel.HideIconVote -> {
+                menuItemVote?.isEnabled = false
+                menuItemVote?.isVisible = false
+            }
+            MainViewModel.UiModel.ShowIconAlpha -> {
+                menuItemAlpha?.isEnabled = true
+                menuItemAlpha?.isVisible = true
+            }
+            MainViewModel.UiModel.ShowIconVote -> {
+                menuItemVote?.isEnabled = true
+                menuItemVote?.isVisible = true
+            }
         }
     }
+
+    private var launchSomeActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.initUi()
+            }
+        }
 
 }

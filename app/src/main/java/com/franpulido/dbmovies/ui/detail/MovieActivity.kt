@@ -1,5 +1,6 @@
 package com.franpulido.dbmovies.ui.detail
 
+import android.app.Activity
 import android.graphics.drawable.Animatable
 import android.os.Build
 import android.os.Bundle
@@ -34,13 +35,21 @@ class MovieActivity : AppCompatActivity() {
 
         viewModel.model.observe(this, Observer(::updateUi))
 
-        binding.movieDetailFavorite.setOnClickListener { viewModel.onFavoriteClicked() }
+        binding.movieDetailFavorite.setOnClickListener {
+            viewModel.onFavoriteClicked()
+            setResult(Activity.RESULT_OK)
+        }
+    }
+
+    override fun onBackPressed() {
+        finishAfterTransition()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateUi(model: MovieViewModel.UiModel) = with(binding) {
         val movie = model.movie
         movieToolbar.title = movie.title
+        movieToolbar.setTitleTextColor(getColor(R.color.white))
         movieImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
         movieSummary.text = movie.overview
         movieTitle.text = movie.originalTitle
@@ -57,17 +66,12 @@ class MovieActivity : AppCompatActivity() {
             val animatedVectorDrawableCompat =
                 AnimatedVectorDrawableCompat.create(this@MovieActivity, R.drawable.heart_animation)
             movieDetailFavorite.setImageDrawable(animatedVectorDrawableCompat)
-
             val animatableIcon = movieDetailFavorite.drawable as Animatable
             animatableIcon.start()
         } else {
             movieDetailFavorite.setImageDrawable(
-                ContextCompat.getDrawable(
-                    this@MovieActivity,
-                    R.drawable.ic_favorite_border
-                )
+                ContextCompat.getDrawable(this@MovieActivity, R.drawable.ic_favorite_border)
             )
         }
-
     }
 }

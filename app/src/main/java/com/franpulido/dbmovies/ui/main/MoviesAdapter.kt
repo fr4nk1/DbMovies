@@ -6,13 +6,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,7 +32,9 @@ import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.ui.common.basicDiffUtil
 import com.franpulido.domain.models.Movie
 
-class MoviesAdapter(private val listener: (Movie) -> Unit) :
+class MoviesAdapter(
+    private val listener: (Movie) -> Unit
+) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     var movies: List<Movie> by basicDiffUtil(
@@ -49,7 +57,10 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
         holder.composeView.disposeComposition()
     }
 
-    class ViewHolder(val composeView: ComposeView, private val listener: (Movie) -> Unit) :
+    class ViewHolder(
+        val composeView: ComposeView,
+        private val listener: (Movie) -> Unit
+    ) :
         RecyclerView.ViewHolder(composeView) {
         init {
             composeView.setViewCompositionStrategy(
@@ -67,46 +78,74 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
         @Composable
         fun paintItem(movie: Movie) {
             Card(modifier = Modifier.padding(8.dp)) {
-                Column (modifier = Modifier
-                    .background(
-                        Color(
-                            ContextCompat.getColor(
-                                composeView.context,
-                                R.color.pink_200
+                Column(
+                    modifier = Modifier
+                        .background(
+                            Color(
+                                ContextCompat.getColor(
+                                    composeView.context,
+                                    R.color.pink_200
+                                )
                             )
                         )
-                    )
-                    .clickable { listener(movie) },
+                        .clickable { listener(movie) },
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally)
+                    horizontalAlignment = Alignment.CenterHorizontally
+                )
                 {
                     Box {
                         Image(
                             painter = rememberImagePainter("https://image.tmdb.org/t/p/w185/${movie.posterPath}"),
                             contentDescription = "${movie.title}",
-                            modifier = Modifier.aspectRatio(0.7f).padding(8.dp)
+                            modifier = Modifier
+                                .aspectRatio(0.7f)
+                                .padding(8.dp)
                         )
                     }
-                    Text(
-                        text = movie.title,
-                        fontSize = 12.sp,
-                        maxLines = 1,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(8.dp, 4.dp)
-                    )
-                    /*if (movie.favorite) {
-                        Icon(
-                            imageVector = Icons.Default.Favorite,
-                            contentDescription = stringResource(R.string.favorite)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (movie.favorite) {
+                            Icon(
+                                imageVector = Icons.Default.Favorite,
+                                contentDescription = stringResource(R.string.favorite),
+                                modifier = Modifier.padding(8.dp,0.dp,0.dp,4.dp)
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.FavoriteBorder,
+                                contentDescription = stringResource(R.string.not_favorite),
+                                modifier = Modifier.padding(8.dp,0.dp,0.dp,4.dp)
+                            )
+                        }
+                        Text(
+                            text = movie.title,
+                            fontSize = 12.sp,
+                            maxLines = 1,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Left,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(4.dp, 0.dp, 4.dp,4.dp).weight(1f)
                         )
-                    } else {
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = stringResource(R.string.not_favorite)
+                            imageVector = Icons.Default.Star,
+                            contentDescription = stringResource(R.string.rating),
+                            modifier = Modifier.padding(8.dp,0.dp,0.dp,4.dp)
                         )
-                    }*/
+                        Text(
+                            text = movie.voteAverage.toString(),
+                            fontSize = 14.sp,
+                            maxLines = 1,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Left,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(4.dp, 0.dp, 4.dp,4.dp).weight(1f)
+                        )
+                    }
                 }
             }
         }

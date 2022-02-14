@@ -3,6 +3,7 @@
 
     <string name="api_key">383657511acc453bc5ba20c030bcd12d</string>
     <string name="favorite">Favorite</string>
+    <string name="rating">Rating</string>
     <string name="not_favorite">Not favorite</string>
     <string name="release_date">"&lt;b&gt;Release date:&lt;/b&gt; %s"</string>
     <string name="vote_average">"&lt;b&gt;Vote average:&lt;/b&gt; %s"</string>

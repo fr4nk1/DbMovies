@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,7 +18,8 @@ inline fun <reified T : Activity> Context.intentFor(body: Intent.() -> Unit): In
     Intent(this, T::class.java).apply(body)
 
 inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit) {
-    startActivity(intentFor<T>(body))
+    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this as Activity)
+    startActivity(intentFor<T>(body), options.toBundle())
 }
 
 inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffUtil(
