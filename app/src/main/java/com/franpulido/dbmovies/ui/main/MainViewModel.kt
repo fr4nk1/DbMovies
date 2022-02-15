@@ -44,26 +44,34 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         initScope()
     }
 
-    private fun refresh() {
-        _model.value = UiModel.Init
-        type = TypeOfSort.Nothing
-    }
-
     override fun onCleared() {
         destroyScope()
         super.onCleared()
     }
 
+    private fun refresh() {
+        _model.postValue(UiModel.Init)
+        type = TypeOfSort.Nothing
+    }
+
+    private fun sortMoviesByAlpha() {
+        movies = movies.sortedBy { it.title }
+    }
+
+    private fun sortMoviesByVote() {
+        movies = movies.sortedByDescending { it.voteAverage }
+    }
+
     fun initUi() {
         launch {
-            _model.value = UiModel.Loading
+            _model.postValue(UiModel.Loading)
             movies = getPopularMovies.invoke()
-            when(type){
+            when (type) {
                 TypeOfSort.Alpha -> sortMoviesByAlpha()
                 TypeOfSort.Vote -> sortMoviesByVote()
             }
-            if (movies.isNotEmpty()) _model.value = UiModel.Content(movies)
-            else _model.value = UiModel.Error
+            if (movies.isNotEmpty()) _model.postValue(UiModel.Content(movies))
+            else _model.postValue(UiModel.Error)
         }
     }
 
@@ -81,17 +89,10 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
 
     fun sortByVote() {
         type = TypeOfSort.Vote
-        movies = movies.sortedByDescending { it.voteAverage }
+        sortMoviesByVote()
         _model.value = UiModel.Content(movies)
         _model.value = UiModel.HideIconVote
         _model.value = UiModel.ShowIconAlpha
     }
 
-    private fun sortMoviesByAlpha() {
-        movies = movies.sortedBy { it.title }
-    }
-
-    private fun sortMoviesByVote() {
-        movies = movies.sortedByDescending { it.voteAverage }
-    }
 }

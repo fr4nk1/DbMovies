@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             is MainViewModel.UiModel.Navigation -> {
                 val intent = Intent(this, MovieActivity::class.java)
                 intent.putExtra(MovieActivity.MOVIE, model.movie.id)
-                launchSomeActivity.launch(intent)
+                launchDetailActivity.launch(intent)
             }
             MainViewModel.UiModel.Init -> viewModel.initUi()
             MainViewModel.UiModel.Error -> binding.layoutError.viewError.visibility = View.VISIBLE
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var launchSomeActivity =
+    private var launchDetailActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 viewModel.initUi()

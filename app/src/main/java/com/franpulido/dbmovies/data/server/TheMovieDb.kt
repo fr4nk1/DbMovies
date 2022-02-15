@@ -17,7 +17,5 @@ object TheMovieDb {
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .run {
-            create(TheMovieDbService::class.java)
-        }
+        .run { create(TheMovieDbService::class.java) }
 }

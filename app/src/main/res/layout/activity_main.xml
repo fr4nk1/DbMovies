@@ -38,20 +38,18 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <include android:id="@+id/layoutError" layout="@layout/layout_error" />
+        <include
+            android:id="@+id/layoutError"
+            layout="@layout/layout_error" />
 
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/default_margin_half" />
 
     </RelativeLayout>
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

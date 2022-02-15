@@ -3,12 +3,11 @@ package com.franpulido.dbmovies.ui.detail
 import androidx.lifecycle.SavedStateHandle
 import com.franpulido.data.repository.MoviesRepository
 import com.franpulido.usecases.FindMovieById
-import com.franpulido.usecases.ToggleMovieFavorite
+import com.franpulido.usecases.UpdateMovieFavorite
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import java.lang.IllegalStateException
 import javax.inject.Named
 
 @Module
@@ -19,8 +18,8 @@ class MovieActivityModule {
     fun findMovieByIdProvider(moviesRepository: MoviesRepository) = FindMovieById(moviesRepository)
 
     @Provides
-    fun toggleMovieFavoriteProvider(moviesRepository: MoviesRepository) =
-        ToggleMovieFavorite(moviesRepository)
+    fun updateMovieFavoriteProvider(moviesRepository: MoviesRepository) =
+        UpdateMovieFavorite(moviesRepository)
 
     @Provides
     @Named("movieId")

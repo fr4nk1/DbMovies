@@ -7,8 +7,6 @@ import com.franpulido.domain.models.Movie
 class TheMovieDbDataSource : RemoteDataSource {
 
     override suspend fun getPopularMovies(apiKey: String): List<Movie> =
-        TheMovieDb.service
-            .listPopularMoviesAsync(apiKey)
-            .results
-            .map { it.toDomainMovie() }
+        TheMovieDb.service.listPopularMoviesAsync(apiKey).results.map { it.toDomainMovie() }
+
 }

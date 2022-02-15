@@ -41,33 +41,32 @@ class MovieActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        finishAfterTransition()
-    }
-
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateUi(model: MovieViewModel.UiModel) = with(binding) {
         val movie = model.movie
         movieToolbar.title = movie.title
         movieToolbar.setTitleTextColor(getColor(R.color.white))
         movieImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
-        movieSummary.text = movie.overview
-        movieTitle.text = movie.originalTitle
-        movieDate.text = Html.fromHtml(
-            getString(R.string.release_date, movie.releaseDate),
-            HtmlCompat.FROM_HTML_MODE_COMPACT
-        )
-        movieAverage.text = Html.fromHtml(
-            getString(R.string.vote_average, movie.voteAverage.toString()),
-            HtmlCompat.FROM_HTML_MODE_COMPACT
-        )
+
+        with(layoutDescription) {
+            movieSummary.text = movie.overview
+            movieTitle.text = movie.originalTitle
+            movieDate.text = Html.fromHtml(
+                getString(R.string.release_date, movie.releaseDate),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
+            movieAverage.text = Html.fromHtml(
+                getString(R.string.vote_average, movie.voteAverage.toString()),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
+        }
 
         if (movie.favorite) {
             val animatedVectorDrawableCompat =
                 AnimatedVectorDrawableCompat.create(this@MovieActivity, R.drawable.heart_animation)
             movieDetailFavorite.setImageDrawable(animatedVectorDrawableCompat)
-            val animatableIcon = movieDetailFavorite.drawable as Animatable
-            animatableIcon.start()
+            val animateIcon = movieDetailFavorite.drawable as Animatable
+            animateIcon.start()
         } else {
             movieDetailFavorite.setImageDrawable(
                 ContextCompat.getDrawable(this@MovieActivity, R.drawable.ic_favorite_border)
