@@ -2,7 +2,7 @@ package com.franpulido.dbmovies.data.server
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 data class MovieDbResult(
     val page: Int,

@@ -9,10 +9,12 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.databinding.ActivityMainBinding
 import com.franpulido.dbmovies.ui.detail.MovieActivity
+import com.franpulido.dbmovies.ui.main.adapter.MoviesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         adapter = MoviesAdapter(viewModel::onMovieClicked)
-        binding.recycler.adapter = adapter
+
+        binding.layoutRecycler.recycler.adapter = adapter
         viewModel.model.observe(this, Observer(::updateUi))
     }
 
@@ -50,6 +53,16 @@ class MainActivity : AppCompatActivity() {
                 InfoBottomSheetFragment.newInstance().show(supportFragmentManager, "")
                 true
             }
+            R.id.menu_flip -> {
+                if(binding.layoutRecycler.rlRootRecycler.isVisible){
+                    binding.layoutRecycler.rlRootRecycler.visibility = View.GONE
+                    binding.layoutViewPager.flRootViewPager.visibility = View.VISIBLE
+                }else{
+                    binding.layoutRecycler.rlRootRecycler.visibility = View.VISIBLE
+                    binding.layoutViewPager.flRootViewPager.visibility = View.GONE
+                }
+                true
+            }
             R.id.menu_sort_vote -> {
                 viewModel.sortByVote()
                 true
@@ -63,18 +76,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUi(model: MainViewModel.UiModel) {
-        binding.progress.visibility =
+        binding.layoutRecycler.progress.visibility =
             if (model is MainViewModel.UiModel.Loading) View.VISIBLE else View.GONE
 
         when (model) {
-            is MainViewModel.UiModel.Content -> adapter.movies = model.movies
+            is MainViewModel.UiModel.Content -> adapter.movies = model.movies.results
             is MainViewModel.UiModel.Navigation -> {
                 val intent = Intent(this, MovieActivity::class.java)
                 intent.putExtra(MovieActivity.MOVIE, model.movie.id)
                 launchDetailActivity.launch(intent)
             }
             MainViewModel.UiModel.Init -> viewModel.initUi()
-            MainViewModel.UiModel.Error -> binding.layoutError.viewError.visibility = View.VISIBLE
+            MainViewModel.UiModel.Error -> binding.layoutRecycler.layoutError.viewError.visibility = View.VISIBLE
             MainViewModel.UiModel.HideIconAlpha -> {
                 menuItemAlpha?.isEnabled = false
                 menuItemAlpha?.isVisible = false

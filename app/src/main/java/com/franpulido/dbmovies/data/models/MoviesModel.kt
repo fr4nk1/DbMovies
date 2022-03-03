@@ -1,7 +1,15 @@
-package com.franpulido.domain.models
+package com.franpulido.dbmovies.data.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-data class Movie(
+@Parcelize
+data class MoviesModel(
+    var results: List<MovieModel>
+): Parcelable
+
+@Parcelize
+data class MovieModel(
     val id: Int,
     val title: String,
     val overview: String,
@@ -13,4 +21,4 @@ data class Movie(
     val popularity: Double,
     val voteAverage: Double,
     val favorite: Boolean
-)
+) : Parcelable

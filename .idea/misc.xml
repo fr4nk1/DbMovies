@@ -15,6 +15,8 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/ic_movies.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/ic_movies_white.xml" value="0.2295" />
+        <entry key="app/src/main/res/drawable/ic_sort_by_alpha.xml" value="0.234" />
+        <entry key="app/src/main/res/drawable/ic_sort_vote.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/splash_background.xml" value="0.2295" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_movie.xml" value="0.1889564336372847" />
@@ -22,9 +24,14 @@
         <entry key="app/src/main/res/layout/content_main.xml" value="0.38333333333333336" />
         <entry key="app/src/main/res/layout/fragment_bottom_sheet_info.xml" value="0.3473731884057971" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.38333333333333336" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.37395833333333334" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.38333333333333336" />
+        <entry key="app/src/main/res/layout/fragment_story_view.xml" value="0.37415320479416364" />
         <entry key="app/src/main/res/layout/layout_description_movie.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/layout_error.xml" value="0.3473731884057971" />
+        <entry key="app/src/main/res/layout/layout_recycler.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/layout/layout_story_view.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/layout/layout_viewpager.xml" value="0.37395833333333334" />
         <entry key="app/src/main/res/layout/view_movie.xml" value="0.34692028985507245" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.3609375" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2125" />

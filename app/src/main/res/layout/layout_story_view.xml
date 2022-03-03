@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/clRoot"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/grey">
+
+    <ImageView
+        android:id="@+id/imageBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_movies"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/options_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="@dimen/default_padding"
+        android:background="@color/black_transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Baljeet Singh"
+            android:textStyle="bold"
+            android:textSize="@dimen/default_font_size_very_big"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/recycler_view_options"
+            app:layout_constraintBottom_toTopOf="@+id/textTitleDescription"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textTitleDescription"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="wrap"
+            tools:text="@tools:sample/lorem/random"
+            android:textSize="@dimen/default_font_size_big"
+            android:lines="5"
+            android:maxLines="5"
+            android:ellipsize="end"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="10dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/recycler_view_options"
+            app:layout_constraintBottom_toTopOf="@+id/textVote"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_view_music_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintHeight_default="wrap"
+            app:srcCompat="@drawable/ic_sort_vote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textVote"
+            android:outlineSpotShadowColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/textVote"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textVote"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintWidth_percent=".4"
+            tools:text="9.4"
+            android:textStyle="bold"
+            android:textSize="@dimen/default_font_size_medium"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/image_view_music_icon"
+            app:layout_constraintEnd_toStartOf="@+id/recycler_view_options"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recycler_view_options"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintVertical_bias=".95">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageFavorite"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:outlineAmbientShadowColor="@color/grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_favorite"
+                tools:ignore="MissingConstraints" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

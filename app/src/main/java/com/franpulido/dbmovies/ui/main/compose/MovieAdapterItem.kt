@@ -27,14 +27,15 @@ import androidx.core.content.ContextCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.franpulido.dbmovies.R
-import com.franpulido.domain.models.Movie
+import com.franpulido.dbmovies.data.models.MovieModel
+import com.franpulido.dbmovies.ui.main.adapter.MoviesAdapter
 
 const val TITLE_TEST_TAG = "TitleTestTag"
 const val VOTE_TEST_TAG = "VoteTestTag"
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun MovieAdapterItem(movie: Movie, context: Context, listener: (Movie) -> Unit) {
+fun MovieAdapterItem(movie: MovieModel, context: Context, listener: (MovieModel) -> Unit) {
     Card(modifier = Modifier.padding(8.dp)) {
         Column(
             modifier = Modifier

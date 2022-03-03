@@ -18,6 +18,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_flip"
+        android:title="Flip"
+        android:icon="@drawable/ic_story"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/menu_info"
         android:title="Info"
         android:icon="@drawable/ic_info"

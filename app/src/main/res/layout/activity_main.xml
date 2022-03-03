@@ -20,36 +20,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize">
+    <include
+        android:id="@+id/layoutRecycler"
+        layout="@layout/layout_recycler" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="3" />
-
-        </androidx.core.widget.NestedScrollView>
-
-        <include
-            android:id="@+id/layoutError"
-            layout="@layout/layout_error" />
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="@dimen/default_margin_half" />
-
-    </RelativeLayout>
-
+    <include
+        android:id="@+id/layoutViewPager"
+        layout="@layout/layout_viewpager" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

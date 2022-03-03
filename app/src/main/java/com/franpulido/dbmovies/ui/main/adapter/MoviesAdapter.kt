@@ -1,16 +1,17 @@
-package com.franpulido.dbmovies.ui.main
+package com.franpulido.dbmovies.ui.main.adapter
 
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.recyclerview.widget.RecyclerView
+import com.franpulido.dbmovies.data.models.MovieModel
 import com.franpulido.dbmovies.ui.common.basicDiffUtil
-import com.franpulido.domain.models.Movie
+import com.franpulido.dbmovies.ui.main.MovieAdapterItem
 
-class MoviesAdapter(private val listener: (Movie) -> Unit) :
+class MoviesAdapter(private val listener: (MovieModel) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    var movies: List<Movie> by basicDiffUtil(
+    var movies: List<MovieModel> by basicDiffUtil(
         emptyList(),
         areItemsTheSame = { old, new -> old.id == new.id })
 
@@ -33,7 +34,7 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
         holder.composeView.disposeComposition()
     }
 
-    class ViewHolder(val composeView: ComposeView, private val listener: (Movie) -> Unit) :
+    class ViewHolder(val composeView: ComposeView, private val listener: (MovieModel) -> Unit) :
         RecyclerView.ViewHolder(composeView) {
         init {
             composeView.setViewCompositionStrategy(
@@ -41,7 +42,7 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
             )
         }
 
-        fun bind(movie: Movie) {
+        fun bind(movie: MovieModel) {
             composeView.setContent {
                 MovieAdapterItem(movie, composeView.context, listener)
             }
