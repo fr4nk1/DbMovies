@@ -1,7 +1,7 @@
 package com.franpulido.dbmovies.ui.main
 
 import com.franpulido.data.repository.MoviesRepository
-import com.franpulido.usecases.GetPopularMovies
+import com.franpulido.data.usecases.GetPopularMovies
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

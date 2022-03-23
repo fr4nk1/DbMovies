@@ -73,7 +73,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             app:layout_constraintHeight_default="wrap"
-            app:srcCompat="@drawable/ic_sort_vote"
+            app:srcCompat="@drawable/ic_star_rate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textVote"
             android:outlineSpotShadowColor="@color/grey"
@@ -87,7 +87,7 @@
             app:layout_constraintWidth_percent=".4"
             tools:text="9.4"
             android:textStyle="bold"
-            android:textSize="@dimen/default_font_size_medium"
+            android:textSize="@dimen/default_font_size_big"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:shadowColor="@color/black"
@@ -109,7 +109,7 @@
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintVertical_bias=".95">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <!--<androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageFavorite"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -118,7 +118,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/ic_favorite"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

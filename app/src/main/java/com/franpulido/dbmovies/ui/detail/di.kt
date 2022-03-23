@@ -2,8 +2,8 @@ package com.franpulido.dbmovies.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.franpulido.data.repository.MoviesRepository
-import com.franpulido.usecases.FindMovieById
-import com.franpulido.usecases.UpdateMovieFavorite
+import com.franpulido.data.usecases.FindMovieById
+import com.franpulido.data.usecases.UpdateMovieFavorite
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

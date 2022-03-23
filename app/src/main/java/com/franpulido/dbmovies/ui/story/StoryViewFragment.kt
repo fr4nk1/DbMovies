@@ -3,7 +3,6 @@ package com.franpulido.dbmovies.ui.story
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.data.models.MovieModel
@@ -41,11 +40,11 @@ class StoryViewFragment : Fragment(R.layout.fragment_story_view) {
 
         imageBg?.loadUrl("${URL_IMAGE}${movie?.posterPath}")
 
-        if(movie!!.favorite){
+        /*if(movie!!.favorite){
             imageFavorite.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_favorite) })
         }else{
             imageFavorite.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_favorite_border) })
-        }
+        }*/
 
         clRoot.setOnClickListener {
             activity?.startActivity<MovieActivity> {

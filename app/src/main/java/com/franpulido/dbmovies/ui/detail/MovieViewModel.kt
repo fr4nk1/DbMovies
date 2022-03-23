@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.franpulido.dbmovies.ui.common.ScopedViewModel
 import com.franpulido.domain.models.Movie
-import com.franpulido.usecases.FindMovieById
-import com.franpulido.usecases.UpdateMovieFavorite
+import com.franpulido.data.usecases.FindMovieById
+import com.franpulido.data.usecases.UpdateMovieFavorite
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

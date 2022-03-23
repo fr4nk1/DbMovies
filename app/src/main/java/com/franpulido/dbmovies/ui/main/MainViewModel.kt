@@ -1,39 +1,35 @@
 package com.franpulido.dbmovies.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.franpulido.data.usecases.GetPopularMovies
 import com.franpulido.dbmovies.data.models.MovieModel
 import com.franpulido.dbmovies.data.models.MoviesModel
-import com.franpulido.dbmovies.ui.common.ScopedViewModel
+import com.franpulido.dbmovies.ui.common.BaseViewModel
 import com.franpulido.domain.models.Movie
-import com.franpulido.usecases.GetPopularMovies
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val getPopularMovies: GetPopularMovies) :
-    ScopedViewModel() {
+    BaseViewModel<MainViewModel.ViewState, MainViewModel.ViewEvent>() {
 
     private lateinit var type: TypeOfSort
     private lateinit var movies: List<Movie>
-    private val _model = MutableLiveData<UiModel>()
-    val model: LiveData<UiModel>
-        get() {
-            if (_model.value == null) refresh()
-            return _model
-        }
 
-    sealed class UiModel {
-        object Loading : UiModel()
-        class Content(val movies: MoviesModel) : UiModel()
-        class Navigation(val movie: MovieModel) : UiModel()
-        object HideIconVote : MainViewModel.UiModel()
-        object HideIconAlpha : MainViewModel.UiModel()
-        object ShowIconVote : MainViewModel.UiModel()
-        object ShowIconAlpha : MainViewModel.UiModel()
-        object Error : UiModel()
-        object Init : UiModel()
+    sealed class ViewEvent {
+        class Navigation(val movie: MovieModel) : ViewEvent()
+    }
+
+    sealed class ViewState {
+        object Loading : ViewState()
+        class Content(val movies: MoviesModel) : ViewState()
+        object HideIconVote : ViewState()
+        object HideIconAlpha : ViewState()
+        object ShowIconVote : ViewState()
+        object ShowIconAlpha : ViewState()
+        object Error : ViewState()
+        object Init : ViewState()
     }
 
     sealed class TypeOfSort {
@@ -42,18 +38,59 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         object Vote : TypeOfSort()
     }
 
-    init {
-        initScope()
-    }
+    override suspend fun getInitialViewState(): ViewState = refresh()
 
-    override fun onCleared() {
-        destroyScope()
-        super.onCleared()
-    }
-
-    private fun refresh() {
-        _model.postValue(UiModel.Init)
+    private fun refresh(): ViewState {
         type = TypeOfSort.Nothing
+        return ViewState.Init
+    }
+
+    fun initUi() {
+        viewModelScope.launch {
+            updateViewState { ViewState.Loading }
+
+            movies = getPopularMovies.invoke()
+
+            when (type) {
+                TypeOfSort.Alpha -> sortMoviesByAlpha()
+                TypeOfSort.Vote -> sortMoviesByVote()
+            }
+
+            val moviesDataModel = mapList(movies)
+
+            val newList = MoviesModel(moviesDataModel)
+            if (moviesDataModel.isNotEmpty()) updateViewState { ViewState.Content(newList) }
+            else updateViewState { ViewState.Error }
+        }
+    }
+
+    fun onMovieClicked(movie: MovieModel) {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvent.Navigation(movie))
+        }
+    }
+
+    fun sortByAlpha() {
+        type = TypeOfSort.Alpha
+        sortMoviesByAlpha()
+        val moviesDataModel = mapList(movies)
+        val newList = MoviesModel(moviesDataModel)
+
+
+        updateViewState { ViewState.Content(newList) }
+        updateViewState { ViewState.HideIconAlpha }
+        updateViewState { ViewState.ShowIconVote }
+    }
+
+    fun sortByVote() {
+        type = TypeOfSort.Vote
+        sortMoviesByVote()
+        val moviesDataModel = mapList(movies)
+        val newList = MoviesModel(moviesDataModel)
+
+        updateViewState { ViewState.Content(newList) }
+        updateViewState { ViewState.HideIconVote }
+        updateViewState { ViewState.ShowIconAlpha }
     }
 
     private fun sortMoviesByAlpha() {
@@ -62,23 +99,6 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
 
     private fun sortMoviesByVote() {
         movies = movies.sortedByDescending { it.voteAverage }
-    }
-
-    fun initUi() {
-        launch {
-            _model.postValue(UiModel.Loading)
-            movies = getPopularMovies.invoke()
-            val moviesDataModel = mapList(movies)
-
-            when (type) {
-                TypeOfSort.Alpha -> sortMoviesByAlpha()
-                TypeOfSort.Vote -> sortMoviesByVote()
-            }
-
-            val newList = MoviesModel(moviesDataModel)
-            if (moviesDataModel.isNotEmpty()) _model.postValue(UiModel.Content(newList))
-            else _model.postValue(UiModel.Error)
-        }
     }
 
     private fun mapList(moviesData: List<Movie>) =
@@ -97,29 +117,5 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
                 it.favorite
             )
         }
-
-    fun onMovieClicked(movie: MovieModel) {
-        _model.value = UiModel.Navigation(movie)
-    }
-
-    fun sortByAlpha() {
-        type = TypeOfSort.Alpha
-        sortMoviesByAlpha()
-        val moviesDataModel = mapList(movies)
-        val newList = MoviesModel(moviesDataModel)
-        _model.value = movies?.let { UiModel.Content(newList) }
-        _model.value = UiModel.HideIconAlpha
-        _model.value = UiModel.ShowIconVote
-    }
-
-    fun sortByVote() {
-        type = TypeOfSort.Vote
-        sortMoviesByVote()
-        val moviesDataModel = mapList(movies)
-        val newList = MoviesModel(moviesDataModel)
-        _model.value = movies?.let { UiModel.Content(newList) }
-        _model.value = UiModel.HideIconVote
-        _model.value = UiModel.ShowIconAlpha
-    }
 
 }

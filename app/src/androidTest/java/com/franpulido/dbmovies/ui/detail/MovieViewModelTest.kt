@@ -10,8 +10,8 @@ import com.franpulido.dbmovies.data.database.MovieDatabase
 import com.franpulido.dbmovies.data.database.RoomDataSource
 import com.franpulido.dbmovies.data.server.TheMovieDbDataSource
 import com.franpulido.dbmovies.ui.main.getOrAwaitValue
-import com.franpulido.usecases.FindMovieById
-import com.franpulido.usecases.UpdateMovieFavorite
+import com.franpulido.data.usecases.FindMovieById
+import com.franpulido.data.usecases.UpdateMovieFavorite
 import com.google.common.truth.Truth.assertThat
 import junit.framework.TestCase
 import org.junit.Before

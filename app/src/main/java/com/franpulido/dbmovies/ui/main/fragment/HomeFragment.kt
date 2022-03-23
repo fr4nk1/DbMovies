@@ -1,40 +1,68 @@
 package com.franpulido.dbmovies.ui.main.fragment
 
-import android.os.Bundle
+import android.app.Activity
+import android.content.Intent
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.ui.common.BaseFragment
+import com.franpulido.dbmovies.databinding.FragmentHomeBinding
+import com.franpulido.dbmovies.ui.common.BaseViewModelFragment
+import com.franpulido.dbmovies.ui.detail.MovieActivity
 import com.franpulido.dbmovies.ui.main.MainViewModel
 import com.franpulido.dbmovies.ui.main.adapter.StoriesPagerAdapter
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 
-@AndroidEntryPoint
-class HomeFragment : BaseFragment(R.layout.fragment_home) {
-    private val viewModel by activityViewModels<MainViewModel>()
+private typealias HomeFragmentParent = BaseViewModelFragment<FragmentHomeBinding,
+        MainViewModel.ViewState,
+        MainViewModel.ViewEvent,
+        MainViewModel>
+
+
+class HomeFragment : HomeFragmentParent() {
 
     private lateinit var storiesPagerAdapter: StoriesPagerAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.model.observe(viewLifecycleOwner, Observer(::updateUi))
+    override val viewBinding: (LayoutInflater, ViewGroup?) -> FragmentHomeBinding = { layoutInflater, viewGroup ->
+        FragmentHomeBinding.inflate(
+            layoutInflater,
+            viewGroup,
+            false
+        )
     }
 
-    private fun updateUi(model: MainViewModel.UiModel) {
-        progress.visibility =
-            if (model is MainViewModel.UiModel.Loading) View.VISIBLE else View.GONE
+    override val viewModel: MainViewModel by activityViewModels()
 
-        when (model) {
-            is MainViewModel.UiModel.Content -> {
+    override fun renderViewState(viewState: MainViewModel.ViewState) {
+        binding.progress.visibility =
+            if (viewState is MainViewModel.ViewState.Loading) View.VISIBLE else View.GONE
+
+        when(viewState){
+            is MainViewModel.ViewState.Content -> {
                 storiesPagerAdapter = StoriesPagerAdapter(this)
-                storiesPagerAdapter.movies = model.movies.results
-                view_pager_stories.adapter = storiesPagerAdapter
+                storiesPagerAdapter.movies = viewState.movies.results
+                binding.viewPagerStories.adapter = storiesPagerAdapter
             }
-            MainViewModel.UiModel.Init -> viewModel.initUi()
         }
     }
+
+    override fun setupUI() {}
+
+    override fun handleViewEvent(viewEvent: MainViewModel.ViewEvent) {
+        when (viewEvent) {
+            is MainViewModel.ViewEvent.Navigation -> {
+                val intent = Intent(activity, MovieActivity::class.java)
+                intent.putExtra(MovieActivity.MOVIE, viewEvent.movie.id)
+                launchDetailActivity.launch(intent)
+            }
+        }
+    }
+
+    private var launchDetailActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.initUi()
+            }
+        }
 
 }

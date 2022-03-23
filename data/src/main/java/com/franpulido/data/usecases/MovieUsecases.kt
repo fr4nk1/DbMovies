@@ -1,4 +1,4 @@
-package com.franpulido.usecases
+package com.franpulido.data.usecases
 
 import com.franpulido.data.repository.MoviesRepository
 import com.franpulido.domain.models.Movie

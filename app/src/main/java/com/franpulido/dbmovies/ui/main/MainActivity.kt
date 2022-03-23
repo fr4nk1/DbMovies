@@ -2,42 +2,82 @@ package com.franpulido.dbmovies.ui.main
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.databinding.ActivityMainBinding
+import com.franpulido.dbmovies.ui.common.BaseViewModelActivity
 import com.franpulido.dbmovies.ui.detail.MovieActivity
 import com.franpulido.dbmovies.ui.main.adapter.MoviesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
+private typealias MainParent = BaseViewModelActivity<ActivityMainBinding,
+        MainViewModel.ViewState,
+        MainViewModel.ViewEvent,
+        MainViewModel>
+
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : MainParent() {
 
     private var menuItemAlpha: MenuItem? = null
     private var menuItemVote: MenuItem? = null
-    private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: MoviesAdapter
-    private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override val viewModel: MainViewModel by viewModels()
 
+    override val viewBinding: (LayoutInflater) -> ActivityMainBinding = {
+        ActivityMainBinding.inflate(it)
+    }
+
+    override fun setupUI() {
         setSupportActionBar(binding.toolbar)
 
         adapter = MoviesAdapter(viewModel::onMovieClicked)
-
         binding.layoutRecycler.recycler.adapter = adapter
-        viewModel.model.observe(this, Observer(::updateUi))
+    }
+
+    override fun renderViewState(viewState: MainViewModel.ViewState) {
+        binding.layoutRecycler.progress.visibility =
+            if (viewState is MainViewModel.ViewState.Loading) View.VISIBLE else View.GONE
+
+        when (viewState) {
+            is MainViewModel.ViewState.Content -> adapter.movies = viewState.movies.results
+            MainViewModel.ViewState.Error -> binding.layoutRecycler.layoutError.viewError.visibility =
+                View.VISIBLE
+            MainViewModel.ViewState.Init -> viewModel.initUi()
+            MainViewModel.ViewState.HideIconAlpha -> {
+                menuItemAlpha?.isEnabled = false
+                menuItemAlpha?.isVisible = false
+            }
+            MainViewModel.ViewState.HideIconVote -> {
+                menuItemVote?.isEnabled = false
+                menuItemVote?.isVisible = false
+            }
+            MainViewModel.ViewState.ShowIconAlpha -> {
+                menuItemAlpha?.isEnabled = true
+                menuItemAlpha?.isVisible = true
+            }
+            MainViewModel.ViewState.ShowIconVote -> {
+                menuItemVote?.isEnabled = true
+                menuItemVote?.isVisible = true
+            }
+        }
+    }
+
+    override fun handleViewEvent(viewEvent: MainViewModel.ViewEvent) {
+        when (viewEvent) {
+            is MainViewModel.ViewEvent.Navigation -> {
+                val intent = Intent(this, MovieActivity::class.java)
+                intent.putExtra(MovieActivity.MOVIE, viewEvent.movie.id)
+                launchDetailActivity.launch(intent)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,10 +94,10 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_flip -> {
-                if(binding.layoutRecycler.rlRootRecycler.isVisible){
+                if (binding.layoutRecycler.rlRootRecycler.isVisible) {
                     binding.layoutRecycler.rlRootRecycler.visibility = View.GONE
                     binding.layoutViewPager.flRootViewPager.visibility = View.VISIBLE
-                }else{
+                } else {
                     binding.layoutRecycler.rlRootRecycler.visibility = View.VISIBLE
                     binding.layoutViewPager.flRootViewPager.visibility = View.GONE
                 }
@@ -75,37 +115,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUi(model: MainViewModel.UiModel) {
-        binding.layoutRecycler.progress.visibility =
-            if (model is MainViewModel.UiModel.Loading) View.VISIBLE else View.GONE
-
-        when (model) {
-            is MainViewModel.UiModel.Content -> adapter.movies = model.movies.results
-            is MainViewModel.UiModel.Navigation -> {
-                val intent = Intent(this, MovieActivity::class.java)
-                intent.putExtra(MovieActivity.MOVIE, model.movie.id)
-                launchDetailActivity.launch(intent)
-            }
-            MainViewModel.UiModel.Init -> viewModel.initUi()
-            MainViewModel.UiModel.Error -> binding.layoutRecycler.layoutError.viewError.visibility = View.VISIBLE
-            MainViewModel.UiModel.HideIconAlpha -> {
-                menuItemAlpha?.isEnabled = false
-                menuItemAlpha?.isVisible = false
-            }
-            MainViewModel.UiModel.HideIconVote -> {
-                menuItemVote?.isEnabled = false
-                menuItemVote?.isVisible = false
-            }
-            MainViewModel.UiModel.ShowIconAlpha -> {
-                menuItemAlpha?.isEnabled = true
-                menuItemAlpha?.isVisible = true
-            }
-            MainViewModel.UiModel.ShowIconVote -> {
-                menuItemVote?.isEnabled = true
-                menuItemVote?.isVisible = true
-            }
-        }
-    }
 
     private var launchDetailActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
