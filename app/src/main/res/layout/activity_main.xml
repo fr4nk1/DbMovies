@@ -28,4 +28,15 @@
         android:id="@+id/layoutViewPager"
         layout="@layout/layout_viewpager" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:src="@drawable/ic_story"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/teal_500"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/default_margin" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

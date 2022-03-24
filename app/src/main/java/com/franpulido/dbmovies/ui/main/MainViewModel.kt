@@ -2,9 +2,9 @@ package com.franpulido.dbmovies.ui.main
 
 import androidx.lifecycle.viewModelScope
 import com.franpulido.data.usecases.GetPopularMovies
-import com.franpulido.dbmovies.data.models.MovieModel
-import com.franpulido.dbmovies.data.models.MoviesModel
 import com.franpulido.dbmovies.ui.common.BaseViewModel
+import com.franpulido.dbmovies.ui.models.MovieModel
+import com.franpulido.dbmovies.ui.models.MoviesModel
 import com.franpulido.domain.models.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,6 +28,8 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         object HideIconAlpha : ViewState()
         object ShowIconVote : ViewState()
         object ShowIconAlpha : ViewState()
+        object FlipMode : ViewState()
+        object ListMode : ViewState()
         object Error : ViewState()
         object Init : ViewState()
     }
@@ -93,6 +95,14 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         updateViewState { ViewState.ShowIconAlpha }
     }
 
+    fun flipMode() {
+        updateViewState { ViewState.FlipMode }
+    }
+
+    fun listMode() {
+        updateViewState { ViewState.ListMode }
+    }
+
     private fun sortMoviesByAlpha() {
         movies = movies.sortedBy { it.title }
     }
@@ -117,5 +127,4 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
                 it.favorite
             )
         }
-
 }

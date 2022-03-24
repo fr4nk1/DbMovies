@@ -1,8 +1,8 @@
 package com.franpulido.dbmovies.data
 
 import com.franpulido.dbmovies.data.database.MovieEntity
-import com.franpulido.dbmovies.data.server.MovieDb
 import com.franpulido.domain.models.Movie
+import com.franpulido.network.server.models.MovieDb
 
 fun MovieEntity.toDomainMovie(): Movie = Movie(
     id,

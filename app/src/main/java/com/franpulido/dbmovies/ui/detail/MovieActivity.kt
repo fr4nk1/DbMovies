@@ -3,38 +3,52 @@ package com.franpulido.dbmovies.ui.detail
 import android.app.Activity
 import android.graphics.drawable.Animatable
 import android.os.Build
-import android.os.Bundle
 import android.text.Html
+import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.Observer
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.databinding.ActivityMovieBinding
+import com.franpulido.dbmovies.ui.common.BaseViewModelActivity
 import com.franpulido.dbmovies.ui.common.loadUrl
+import com.franpulido.domain.models.Movie
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class MovieActivity : AppCompatActivity() {
+private typealias MovieParent = BaseViewModelActivity<ActivityMovieBinding,
+        MovieViewModel.ViewState,
+        MovieViewModel.ViewEvent,
+        MovieViewModel>
 
-    private val viewModel: MovieViewModel by viewModels()
-    private lateinit var binding: ActivityMovieBinding
+@AndroidEntryPoint
+class MovieActivity : MovieParent() {
 
     companion object {
         const val MOVIE = "MovieActivity:movie"
     }
 
+    override val viewModel: MovieViewModel by viewModels()
+
+    override val viewBinding: (LayoutInflater) -> ActivityMovieBinding = {
+        ActivityMovieBinding.inflate(it)
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMovieBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun renderViewState(viewState: MovieViewModel.ViewState) {
+        when (viewState) {
+            is MovieViewModel.ViewState.FindMovie -> updateUi(viewState.movie)
+        }
+    }
 
-        viewModel.model.observe(this, Observer(::updateUi))
+    override fun handleViewEvent(viewEvent: MovieViewModel.ViewEvent) {
+        when (viewEvent) {
+            is MovieViewModel.ViewEvent.FavoriteClicked -> setFavoriteIcon(viewEvent.movie)
+        }
+    }
 
+    override fun setupUI() {
         binding.movieDetailFavorite.setOnClickListener {
             viewModel.onFavoriteClicked()
             setResult(Activity.RESULT_OK)
@@ -42,8 +56,7 @@ class MovieActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun updateUi(model: MovieViewModel.UiModel) = with(binding) {
-        val movie = model.movie
+    private fun updateUi(movie: Movie) = with(binding) {
         movieToolbar.title = movie.title
         movieToolbar.setTitleTextColor(getColor(R.color.white))
         movieImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
@@ -60,17 +73,21 @@ class MovieActivity : AppCompatActivity() {
                 HtmlCompat.FROM_HTML_MODE_COMPACT
             )
         }
+        setFavoriteIcon(movie)
+    }
 
+    private fun setFavoriteIcon(movie: Movie) {
         if (movie.favorite) {
             val animatedVectorDrawableCompat =
                 AnimatedVectorDrawableCompat.create(this@MovieActivity, R.drawable.heart_animation)
-            movieDetailFavorite.setImageDrawable(animatedVectorDrawableCompat)
-            val animateIcon = movieDetailFavorite.drawable as Animatable
+            binding.movieDetailFavorite.setImageDrawable(animatedVectorDrawableCompat)
+            val animateIcon = binding.movieDetailFavorite.drawable as Animatable
             animateIcon.start()
         } else {
-            movieDetailFavorite.setImageDrawable(
+            binding.movieDetailFavorite.setImageDrawable(
                 ContextCompat.getDrawable(this@MovieActivity, R.drawable.ic_favorite_border)
             )
         }
     }
+
 }

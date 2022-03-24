@@ -1,10 +1,15 @@
-package com.franpulido.dbmovies.ui.main
+package com.franpulido.dbmovies.ui.main.compose
 
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -27,7 +32,7 @@ import androidx.core.content.ContextCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.data.models.MovieModel
+import com.franpulido.dbmovies.ui.models.MovieModel
 import com.franpulido.dbmovies.ui.main.adapter.MoviesAdapter
 
 const val TITLE_TEST_TAG = "TitleTestTag"

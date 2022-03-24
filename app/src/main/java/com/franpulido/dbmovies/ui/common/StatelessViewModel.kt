@@ -12,20 +12,12 @@ abstract class StatelessViewModel<VIEW_EVENT> : ViewModel() {
     val viewEvents: ReceiveChannel<VIEW_EVENT>
         get() = _viewEvents
 
-    /**
-     * Function for scaffolding the ViewModel.
-     * This shouldn't be extended if you don't know what you are doing.
-     */
     open fun init() {
         viewModelScope.launch {
             extraInitializationSteps()
         }
     }
 
-    /**
-     * Reserved function for extra steps needed on View Model initialization.
-     * Trackings, navigation, sending view events, etc.
-     */
     protected open suspend fun extraInitializationSteps() {}
 
     override fun onCleared() {

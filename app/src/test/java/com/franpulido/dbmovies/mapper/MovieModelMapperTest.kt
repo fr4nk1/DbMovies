@@ -1,7 +1,7 @@
 package com.franpulido.dbmovies.mapper
 
-import com.franpulido.dbmovies.data.toDomainMovie
-import com.franpulido.dbmovies.data.toRoomMovie
+import com.franpulido.data.toDomainMovie
+import com.franpulido.data.toRoomMovie
 import com.franpulido.dbmovies.mocks.MovieMockProvider
 import org.junit.Assert.assertEquals
 import org.junit.Test

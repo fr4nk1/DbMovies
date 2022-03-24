@@ -1,6 +1,6 @@
 package com.franpulido.dbmovies.mocks
 
-import com.franpulido.dbmovies.data.database.MovieEntity
+import com.franpulido.data.database.MovieEntity
 import com.franpulido.domain.models.Movie
 
 class MovieMockProvider {

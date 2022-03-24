@@ -1,5 +1,6 @@
-package com.franpulido.dbmovies.data.server
+package com.franpulido.network.server.services
 
+import com.franpulido.network.server.models.MovieDbResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 

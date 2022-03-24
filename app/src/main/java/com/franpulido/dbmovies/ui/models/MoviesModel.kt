@@ -1,4 +1,4 @@
-package com.franpulido.dbmovies.data.models
+package com.franpulido.dbmovies.ui.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

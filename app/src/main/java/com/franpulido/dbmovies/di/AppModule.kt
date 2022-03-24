@@ -7,7 +7,7 @@ import com.franpulido.data.source.RemoteDataSource
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.data.database.MovieDatabase
 import com.franpulido.dbmovies.data.database.RoomDataSource
-import com.franpulido.dbmovies.data.server.TheMovieDbDataSource
+import com.franpulido.dbmovies.data.source.TheMovieDbDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

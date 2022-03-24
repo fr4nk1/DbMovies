@@ -1,5 +1,6 @@
-package com.franpulido.dbmovies.data.server
+package com.franpulido.network.server.client
 
+import com.franpulido.network.server.services.TheMovieDbService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

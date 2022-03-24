@@ -1,8 +1,9 @@
-package com.franpulido.dbmovies.data.server
+package com.franpulido.dbmovies.data.source
 
 import com.franpulido.data.source.RemoteDataSource
 import com.franpulido.dbmovies.data.toDomainMovie
 import com.franpulido.domain.models.Movie
+import com.franpulido.network.server.client.TheMovieDb
 
 class TheMovieDbDataSource : RemoteDataSource {
 

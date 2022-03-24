@@ -2,7 +2,7 @@ package com.franpulido.dbmovies.ui.main.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.franpulido.dbmovies.data.models.MovieModel
+import com.franpulido.dbmovies.ui.models.MovieModel
 import com.franpulido.dbmovies.ui.common.basicDiffUtil
 import com.franpulido.dbmovies.ui.story.StoryViewFragment
 

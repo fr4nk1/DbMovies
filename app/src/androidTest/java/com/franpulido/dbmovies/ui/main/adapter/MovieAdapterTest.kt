@@ -4,9 +4,9 @@ import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.platform.app.InstrumentationRegistry
-import com.franpulido.dbmovies.ui.main.MovieAdapterItem
-import com.franpulido.dbmovies.ui.main.TITLE_TEST_TAG
-import com.franpulido.dbmovies.ui.main.VOTE_TEST_TAG
+import com.franpulido.dbmovies.ui.main.compose.MovieAdapterItem
+import com.franpulido.dbmovies.ui.main.compose.TITLE_TEST_TAG
+import com.franpulido.dbmovies.ui.main.compose.VOTE_TEST_TAG
 import com.franpulido.domain.models.Movie
 import org.junit.Before
 import org.junit.Rule

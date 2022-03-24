@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.recyclerview.widget.RecyclerView
-import com.franpulido.dbmovies.data.models.MovieModel
+import com.franpulido.dbmovies.ui.models.MovieModel
 import com.franpulido.dbmovies.ui.common.basicDiffUtil
-import com.franpulido.dbmovies.ui.main.MovieAdapterItem
+import com.franpulido.dbmovies.ui.main.compose.MovieAdapterItem
 
 class MoviesAdapter(private val listener: (MovieModel) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {

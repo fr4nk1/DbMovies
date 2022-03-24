@@ -6,9 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.franpulido.data.repository.MoviesRepository
 import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.data.database.MovieDatabase
-import com.franpulido.dbmovies.data.database.RoomDataSource
-import com.franpulido.dbmovies.data.server.TheMovieDbDataSource
+import com.franpulido.data.database.MovieDatabase
+import com.franpulido.data.database.RoomDataSource
+import com.franpulido.data.server.TheMovieDbDataSource
 import com.franpulido.data.usecases.GetPopularMovies
 import com.google.common.truth.Truth.assertThat
 import junit.framework.TestCase

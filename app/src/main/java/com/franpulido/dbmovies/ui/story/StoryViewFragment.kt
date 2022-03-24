@@ -1,14 +1,13 @@
 package com.franpulido.dbmovies.ui.story
 
-
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.data.models.MovieModel
 import com.franpulido.dbmovies.ui.common.loadUrl
 import com.franpulido.dbmovies.ui.common.startActivity
 import com.franpulido.dbmovies.ui.detail.MovieActivity
+import com.franpulido.dbmovies.ui.models.MovieModel
 import kotlinx.android.synthetic.main.layout_story_view.*
 
 class StoryViewFragment : Fragment(R.layout.fragment_story_view) {

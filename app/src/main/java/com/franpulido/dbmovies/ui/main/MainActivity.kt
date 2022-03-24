@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.databinding.ActivityMainBinding
@@ -40,6 +41,18 @@ class MainActivity : MainParent() {
 
         adapter = MoviesAdapter(viewModel::onMovieClicked)
         binding.layoutRecycler.recycler.adapter = adapter
+
+        binding.fabMode.setOnClickListener {
+            if (binding.layoutRecycler.rlRootRecycler.isVisible) {
+                viewModel.flipMode()
+            } else {
+                viewModel.listMode()
+            }
+        }
+    }
+
+    private fun setFabIcon(drawable: Int) {
+        binding.fabMode.setImageDrawable(ContextCompat.getDrawable(this, drawable))
     }
 
     override fun renderViewState(viewState: MainViewModel.ViewState) {
@@ -67,6 +80,16 @@ class MainActivity : MainParent() {
                 menuItemVote?.isEnabled = true
                 menuItemVote?.isVisible = true
             }
+            MainViewModel.ViewState.FlipMode -> {
+                hideRecyclerView()
+                showViewPager()
+                setFabIcon(R.drawable.ic_list)
+            }
+            MainViewModel.ViewState.ListMode -> {
+                showRecycleView()
+                hideViewPager()
+                setFabIcon(R.drawable.ic_story)
+            }
         }
     }
 
@@ -93,16 +116,6 @@ class MainActivity : MainParent() {
                 InfoBottomSheetFragment.newInstance().show(supportFragmentManager, "")
                 true
             }
-            R.id.menu_flip -> {
-                if (binding.layoutRecycler.rlRootRecycler.isVisible) {
-                    binding.layoutRecycler.rlRootRecycler.visibility = View.GONE
-                    binding.layoutViewPager.flRootViewPager.visibility = View.VISIBLE
-                } else {
-                    binding.layoutRecycler.rlRootRecycler.visibility = View.VISIBLE
-                    binding.layoutViewPager.flRootViewPager.visibility = View.GONE
-                }
-                true
-            }
             R.id.menu_sort_vote -> {
                 viewModel.sortByVote()
                 true
@@ -122,5 +135,21 @@ class MainActivity : MainParent() {
                 viewModel.initUi()
             }
         }
+
+    private fun showRecycleView() {
+        binding.layoutRecycler.rlRootRecycler.visibility = View.VISIBLE
+    }
+
+    private fun showViewPager() {
+        binding.layoutViewPager.flRootViewPager.visibility = View.VISIBLE
+    }
+
+    private fun hideViewPager() {
+        binding.layoutViewPager.flRootViewPager.visibility = View.GONE
+    }
+
+    private fun hideRecyclerView() {
+        binding.layoutRecycler.rlRootRecycler.visibility = View.GONE
+    }
 
 }

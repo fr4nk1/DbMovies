@@ -1,8 +1,6 @@
-package com.franpulido.dbmovies.data.server
+package com.franpulido.network.server.models
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
 data class MovieDbResult(
     val page: Int,
@@ -11,7 +9,6 @@ data class MovieDbResult(
     @SerializedName("total_results") val totalResults: Int
 )
 
-@Parcelize
 data class MovieDb(
     val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
@@ -27,4 +24,4 @@ data class MovieDb(
     val video: Boolean,
     @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("vote_count") val voteCount: Int
-) : Parcelable
+)
