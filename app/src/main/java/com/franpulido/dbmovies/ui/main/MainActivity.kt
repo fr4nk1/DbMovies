@@ -65,30 +65,16 @@ class MainActivity : MainParent() {
                 View.VISIBLE
             MainViewModel.ViewState.Init -> viewModel.initUi()
             MainViewModel.ViewState.HideIconAlpha -> {
-                menuItemAlpha?.isEnabled = false
-                menuItemAlpha?.isVisible = false
+                hideIconItemAlpha()
             }
             MainViewModel.ViewState.HideIconVote -> {
-                menuItemVote?.isEnabled = false
-                menuItemVote?.isVisible = false
+                hideIconItemVote()
             }
             MainViewModel.ViewState.ShowIconAlpha -> {
-                menuItemAlpha?.isEnabled = true
-                menuItemAlpha?.isVisible = true
+                showIconItemAlpha()
             }
             MainViewModel.ViewState.ShowIconVote -> {
-                menuItemVote?.isEnabled = true
-                menuItemVote?.isVisible = true
-            }
-            MainViewModel.ViewState.FlipMode -> {
-                hideRecyclerView()
-                showViewPager()
-                setFabIcon(R.drawable.ic_list)
-            }
-            MainViewModel.ViewState.ListMode -> {
-                showRecycleView()
-                hideViewPager()
-                setFabIcon(R.drawable.ic_story)
+                showIconItemVote()
             }
         }
     }
@@ -99,6 +85,16 @@ class MainActivity : MainParent() {
                 val intent = Intent(this, MovieActivity::class.java)
                 intent.putExtra(MovieActivity.MOVIE, viewEvent.movie.id)
                 launchDetailActivity.launch(intent)
+            }
+            MainViewModel.ViewEvent.FlipMode -> {
+                hideRecyclerView()
+                showViewPager()
+                setFabIcon(R.drawable.ic_list)
+            }
+            MainViewModel.ViewEvent.ListMode -> {
+                showRecycleView()
+                hideViewPager()
+                setFabIcon(R.drawable.ic_story)
             }
         }
     }
@@ -150,6 +146,26 @@ class MainActivity : MainParent() {
 
     private fun hideRecyclerView() {
         binding.layoutRecycler.rlRootRecycler.visibility = View.GONE
+    }
+
+    private fun showIconItemAlpha() {
+        menuItemAlpha?.isEnabled = true
+        menuItemAlpha?.isVisible = true
+    }
+
+    private fun showIconItemVote() {
+        menuItemVote?.isEnabled = true
+        menuItemVote?.isVisible = true
+    }
+
+    private fun hideIconItemAlpha() {
+        menuItemAlpha?.isEnabled = false
+        menuItemAlpha?.isVisible = false
+    }
+
+    private fun hideIconItemVote() {
+        menuItemVote?.isEnabled = false
+        menuItemVote?.isVisible = false
     }
 
 }
