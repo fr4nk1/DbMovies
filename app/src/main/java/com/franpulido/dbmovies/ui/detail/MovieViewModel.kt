@@ -24,7 +24,7 @@ class MovieViewModel @Inject constructor(
     }
 
     sealed class ViewState {
-        class FindMovie(val movie: Movie) : ViewState()
+        class Content(val movie: Movie) : ViewState()
         object EmptyState : ViewState()
     }
 
@@ -34,7 +34,7 @@ class MovieViewModel @Inject constructor(
 
     private fun findMovie() = viewModelScope.launch {
         movie = findMovieById.invoke(movieId)
-        updateViewState { ViewState.FindMovie(movie) }
+        updateViewState { ViewState.Content(movie) }
     }
 
     fun onFavoriteClicked() = viewModelScope.launch {

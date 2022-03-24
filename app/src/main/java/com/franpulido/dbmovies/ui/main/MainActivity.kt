@@ -64,18 +64,6 @@ class MainActivity : MainParent() {
             MainViewModel.ViewState.Error -> binding.layoutRecycler.layoutError.viewError.visibility =
                 View.VISIBLE
             MainViewModel.ViewState.Init -> viewModel.initUi()
-            MainViewModel.ViewState.HideIconAlpha -> {
-                hideIconItemAlpha()
-            }
-            MainViewModel.ViewState.HideIconVote -> {
-                hideIconItemVote()
-            }
-            MainViewModel.ViewState.ShowIconAlpha -> {
-                showIconItemAlpha()
-            }
-            MainViewModel.ViewState.ShowIconVote -> {
-                showIconItemVote()
-            }
         }
     }
 
@@ -95,6 +83,18 @@ class MainActivity : MainParent() {
                 showRecycleView()
                 hideViewPager()
                 setFabIcon(R.drawable.ic_story)
+            }
+            MainViewModel.ViewEvent.HideIconAlpha -> {
+                hideIconItemAlpha()
+            }
+            MainViewModel.ViewEvent.HideIconVote -> {
+                hideIconItemVote()
+            }
+            MainViewModel.ViewEvent.ShowIconAlpha -> {
+                showIconItemAlpha()
+            }
+            MainViewModel.ViewEvent.ShowIconVote -> {
+                showIconItemVote()
             }
         }
     }

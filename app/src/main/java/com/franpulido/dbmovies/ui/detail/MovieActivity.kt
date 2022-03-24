@@ -38,7 +38,7 @@ class MovieActivity : MovieParent() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun renderViewState(viewState: MovieViewModel.ViewState) {
         when (viewState) {
-            is MovieViewModel.ViewState.FindMovie -> updateUi(viewState.movie)
+            is MovieViewModel.ViewState.Content -> updateUi(viewState.movie)
         }
     }
 

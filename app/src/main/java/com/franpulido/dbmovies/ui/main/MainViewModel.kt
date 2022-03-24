@@ -21,15 +21,15 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         class Navigation(val movie: MovieModel) : ViewEvent()
         object FlipMode : ViewEvent()
         object ListMode : ViewEvent()
+        object HideIconVote : ViewEvent()
+        object HideIconAlpha : ViewEvent()
+        object ShowIconVote : ViewEvent()
+        object ShowIconAlpha : ViewEvent()
     }
 
     sealed class ViewState {
         object Loading : ViewState()
         class Content(val movies: MoviesModel) : ViewState()
-        object HideIconVote : ViewState()
-        object HideIconAlpha : ViewState()
-        object ShowIconVote : ViewState()
-        object ShowIconAlpha : ViewState()
         object Error : ViewState()
         object Init : ViewState()
     }
@@ -78,10 +78,11 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         val moviesDataModel = mapList(movies)
         val newList = MoviesModel(moviesDataModel)
 
-
         updateViewState { ViewState.Content(newList) }
-        updateViewState { ViewState.HideIconAlpha }
-        updateViewState { ViewState.ShowIconVote }
+        viewModelScope.launch {
+            sendViewEvent(ViewEvent.HideIconAlpha)
+            sendViewEvent(ViewEvent.ShowIconVote)
+        }
     }
 
     fun sortByVote() {
@@ -91,26 +92,28 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         val newList = MoviesModel(moviesDataModel)
 
         updateViewState { ViewState.Content(newList) }
-        updateViewState { ViewState.HideIconVote }
-        updateViewState { ViewState.ShowIconAlpha }
+        viewModelScope.launch {
+            sendViewEvent(ViewEvent.HideIconVote)
+            sendViewEvent(ViewEvent.ShowIconAlpha)
+        }
     }
 
     fun flipMode() {
         viewModelScope.launch {
             sendViewEvent(ViewEvent.FlipMode)
+            sendViewEvent(ViewEvent.HideIconVote)
+            sendViewEvent(ViewEvent.HideIconAlpha)
         }
-        updateViewState { ViewState.HideIconVote }
-        updateViewState { ViewState.HideIconAlpha }
     }
 
     fun listMode() {
         viewModelScope.launch {
             sendViewEvent(ViewEvent.ListMode)
-        }
-        when (type) {
-            TypeOfSort.Alpha -> updateViewState { ViewState.ShowIconVote }
-            TypeOfSort.Vote -> updateViewState { ViewState.ShowIconAlpha }
-            TypeOfSort.Nothing -> updateViewState { ViewState.ShowIconAlpha }
+            when (type) {
+                TypeOfSort.Alpha -> sendViewEvent(ViewEvent.ShowIconVote)
+                TypeOfSort.Vote -> sendViewEvent(ViewEvent.ShowIconAlpha)
+                TypeOfSort.Nothing -> sendViewEvent(ViewEvent.ShowIconAlpha)
+            }
         }
     }
 
