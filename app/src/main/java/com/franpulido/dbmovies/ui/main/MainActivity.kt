@@ -67,6 +67,7 @@ class MainActivity : MainParent() {
 
         when (viewState) {
             is MainViewModel.ViewState.Content -> {
+                showIconItemAlpha()
                 binding.fabMode.showWithFadeIn()
                 adapter.movies = viewState.movies.results
             }
