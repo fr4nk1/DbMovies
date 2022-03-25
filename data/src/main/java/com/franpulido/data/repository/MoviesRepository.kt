@@ -19,12 +19,6 @@ class MoviesRepository(
         return localDataSource.getPopularMovies()
     }
 
-    suspend fun getPopularMoviesStory(): List<Movie> {
-        return if (localDataSource.isEmpty()) {
-            remoteDataSource.getPopularMovies(apiKey)
-        } else localDataSource.getPopularMovies()
-    }
-
     suspend fun findById(id: Int): Movie = localDataSource.findById(id)
 
     suspend fun update(movie: Movie) = localDataSource.update(movie)
