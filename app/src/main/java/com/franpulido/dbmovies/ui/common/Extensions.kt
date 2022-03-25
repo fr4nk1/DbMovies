@@ -3,11 +3,14 @@ package com.franpulido.dbmovies.ui.common
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.franpulido.dbmovies.R
 import kotlin.properties.Delegates
 
 fun ImageView.loadUrl(url: String) {
@@ -40,3 +43,17 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
             override fun getNewListSize(): Int = new.size
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
+
+fun View.hideWithFadeOut() {
+    if (visibility == View.GONE) return
+    val animFadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+    startAnimation(animFadeIn)
+    visibility = View.GONE
+}
+
+fun View.showWithFadeIn() {
+    if (visibility == View.VISIBLE) return
+    val animFadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+    startAnimation(animFadeIn)
+    visibility = View.VISIBLE
+}

@@ -1,7 +1,7 @@
 package com.franpulido.dbmovies.ui.main.fragment
 
 import androidx.lifecycle.viewModelScope
-import com.franpulido.data.usecases.GetPopularMovies
+import com.franpulido.data.usecases.GetPopularMoviesStory
 import com.franpulido.dbmovies.ui.common.BaseViewModel
 import com.franpulido.dbmovies.ui.models.MovieModel
 import com.franpulido.dbmovies.ui.models.MoviesModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val getPopularMovies: GetPopularMovies) :
+class HomeViewModel @Inject constructor(private val getPopularMoviesStory: GetPopularMoviesStory) :
     BaseViewModel<HomeViewModel.ViewState, HomeViewModel.ViewEvent>() {
 
     private lateinit var type: TypeOfSort
@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(private val getPopularMovies: GetPopular
         viewModelScope.launch {
             updateViewState { ViewState.Loading }
 
-            movies = getPopularMovies.invoke()
+            movies = getPopularMoviesStory.invoke()
 
             when (type) {
                 TypeOfSort.Alpha -> sortMoviesByAlpha()

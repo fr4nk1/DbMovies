@@ -7,13 +7,6 @@
     tools:showIn="@layout/activity_movie">
 
     <TextView
-        android:id="@+id/movieTitle"
-        style="@style/TextViewDetail"
-        android:layout_marginTop="@dimen/default_margin"
-        android:textStyle="bold"
-        tools:text="Title" />
-
-    <TextView
         android:id="@+id/movieSummary"
         style="@style/TextViewDetail"
         tools:text="Summary" />
@@ -27,5 +20,10 @@
         android:id="@+id/movieAverage"
         style="@style/TextViewDetail"
         tools:text="Average" />
+
+    <TextView
+        android:id="@+id/moviePopularity"
+        style="@style/TextViewDetail"
+        tools:text="Popularity" />
 
 </LinearLayout>

@@ -7,7 +7,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.franpulido.dbmovies.ui.main.compose.MovieAdapterItem
 import com.franpulido.dbmovies.ui.main.compose.TITLE_TEST_TAG
 import com.franpulido.dbmovies.ui.main.compose.VOTE_TEST_TAG
-import com.franpulido.domain.models.Movie
+import com.franpulido.dbmovies.ui.models.MovieModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,7 +33,7 @@ class MovieAdapterTest {
         private const val VOTE_AVERAGE = 8.4
         private const val FAVORITE = false
 
-        fun getDummyMovie() = Movie(
+        fun getDummyMovie() = MovieModel(
             ID, TITLE, OVERVIEW, RELEASE_DATE, POSTER_PATH,
             BACKDROP_PATH, ORIGINAL_LANGUAGE, ORIGINAL_TITLE, POPULARITY, VOTE_AVERAGE, FAVORITE
         )

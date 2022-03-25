@@ -11,13 +11,18 @@ class MoviesRepository(
 ) {
 
     suspend fun getPopularMovies(): List<Movie> {
-
         if (localDataSource.isEmpty()) {
             val movies = remoteDataSource.getPopularMovies(apiKey)
             localDataSource.saveMovies(movies)
         }
 
         return localDataSource.getPopularMovies()
+    }
+
+    suspend fun getPopularMoviesStory(): List<Movie> {
+        return if (localDataSource.isEmpty()) {
+            remoteDataSource.getPopularMovies(apiKey)
+        } else localDataSource.getPopularMovies()
     }
 
     suspend fun findById(id: Int): Movie = localDataSource.findById(id)

@@ -24,6 +24,7 @@ class MovieViewModel @Inject constructor(
     }
 
     sealed class ViewState {
+        object Loading : ViewState()
         class Content(val movie: Movie) : ViewState()
         object EmptyState : ViewState()
     }

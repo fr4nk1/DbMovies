@@ -1,4 +1,4 @@
-package com.franpulido.dbmovies.data.database
+package com.franpulido.database.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

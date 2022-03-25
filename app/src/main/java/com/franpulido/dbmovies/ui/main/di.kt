@@ -2,6 +2,7 @@ package com.franpulido.dbmovies.ui.main
 
 import com.franpulido.data.repository.MoviesRepository
 import com.franpulido.data.usecases.GetPopularMovies
+import com.franpulido.data.usecases.GetPopularMoviesStory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,4 +17,9 @@ class MainActivityModule {
     @ViewModelScoped
     fun getPopularMoviesProvider(moviesRepository: MoviesRepository) =
         GetPopularMovies(moviesRepository)
+
+    @Provides
+    @ViewModelScoped
+    fun getPopularMoviesStoryProvider(moviesRepository: MoviesRepository) =
+        GetPopularMoviesStory(moviesRepository)
 }

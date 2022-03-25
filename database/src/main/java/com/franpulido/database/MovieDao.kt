@@ -1,10 +1,11 @@
-package com.franpulido.dbmovies.data.database
+package com.franpulido.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.franpulido.database.models.MovieEntity
 
 @Dao
 interface MovieDao {

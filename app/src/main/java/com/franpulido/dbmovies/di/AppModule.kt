@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.room.Room
 import com.franpulido.data.source.LocalDataSource
 import com.franpulido.data.source.RemoteDataSource
+import com.franpulido.database.MovieDatabase
+import com.franpulido.database.source.RoomDataSource
 import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.data.database.MovieDatabase
-import com.franpulido.dbmovies.data.database.RoomDataSource
-import com.franpulido.dbmovies.data.source.TheMovieDbDataSource
+import com.franpulido.dbmovies.datasource.TheMovieDbDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

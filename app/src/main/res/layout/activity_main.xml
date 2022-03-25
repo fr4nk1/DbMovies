@@ -37,6 +37,7 @@
         android:layout_gravity="bottom|end"
         android:backgroundTint="@color/teal_500"
         android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/default_margin" />
+        android:layout_marginBottom="@dimen/default_margin"
+        android:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

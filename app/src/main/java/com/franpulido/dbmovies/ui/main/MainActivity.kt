@@ -8,11 +8,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.databinding.ActivityMainBinding
 import com.franpulido.dbmovies.ui.common.BaseViewModelActivity
+import com.franpulido.dbmovies.ui.common.hideWithFadeOut
+import com.franpulido.dbmovies.ui.common.showWithFadeIn
 import com.franpulido.dbmovies.ui.detail.MovieActivity
 import com.franpulido.dbmovies.ui.main.adapter.MoviesAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +32,9 @@ class MainActivity : MainParent() {
     private var menuItemVote: MenuItem? = null
     private lateinit var adapter: MoviesAdapter
 
+    companion object {
+        const val INFO_BOTTOM_SHEET_FRAGMENT = "InfoFragment"
+    }
 
     override val viewModel: MainViewModel by viewModels()
 
@@ -60,9 +66,11 @@ class MainActivity : MainParent() {
             if (viewState is MainViewModel.ViewState.Loading) View.VISIBLE else View.GONE
 
         when (viewState) {
-            is MainViewModel.ViewState.Content -> adapter.movies = viewState.movies.results
-            MainViewModel.ViewState.Error -> binding.layoutRecycler.layoutError.viewError.visibility =
-                View.VISIBLE
+            is MainViewModel.ViewState.Content -> {
+                binding.fabMode.showWithFadeIn()
+                adapter.movies = viewState.movies.results
+            }
+            MainViewModel.ViewState.Error -> binding.layoutRecycler.layoutError.viewError.showWithFadeIn()
             MainViewModel.ViewState.Init -> viewModel.initUi()
         }
     }
@@ -72,7 +80,8 @@ class MainActivity : MainParent() {
             is MainViewModel.ViewEvent.Navigation -> {
                 val intent = Intent(this, MovieActivity::class.java)
                 intent.putExtra(MovieActivity.MOVIE, viewEvent.movie.id)
-                launchDetailActivity.launch(intent)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
+                launchDetailActivity.launch(intent, options)
             }
             MainViewModel.ViewEvent.FlipMode -> {
                 hideRecyclerView()
@@ -109,7 +118,10 @@ class MainActivity : MainParent() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_info -> {
-                InfoBottomSheetFragment.newInstance().show(supportFragmentManager, "")
+                if (supportFragmentManager.findFragmentByTag(INFO_BOTTOM_SHEET_FRAGMENT) == null) {
+                    InfoBottomSheetFragment.newInstance()
+                        .show(supportFragmentManager, INFO_BOTTOM_SHEET_FRAGMENT)
+                }
                 true
             }
             R.id.menu_sort_vote -> {
@@ -133,19 +145,19 @@ class MainActivity : MainParent() {
         }
 
     private fun showRecycleView() {
-        binding.layoutRecycler.rlRootRecycler.visibility = View.VISIBLE
+        binding.layoutRecycler.rlRootRecycler.showWithFadeIn()
     }
 
     private fun showViewPager() {
-        binding.layoutViewPager.flRootViewPager.visibility = View.VISIBLE
+        binding.layoutViewPager.flRootViewPager.showWithFadeIn()
     }
 
     private fun hideViewPager() {
-        binding.layoutViewPager.flRootViewPager.visibility = View.GONE
+        binding.layoutViewPager.flRootViewPager.hideWithFadeOut()
     }
 
     private fun hideRecyclerView() {
-        binding.layoutRecycler.rlRootRecycler.visibility = View.GONE
+        binding.layoutRecycler.rlRootRecycler.hideWithFadeOut()
     }
 
     private fun showIconItemAlpha() {

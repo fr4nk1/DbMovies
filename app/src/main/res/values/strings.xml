@@ -7,6 +7,7 @@
     <string name="not_favorite">Not favorite</string>
     <string name="release_date">"&lt;b&gt;Release date:&lt;/b&gt; %s"</string>
     <string name="vote_average">"&lt;b&gt;Vote average:&lt;/b&gt; %s"</string>
+    <string name="popularity">"&lt;b&gt;Popularity:&lt;/b&gt; %s"</string>
     <string name="info_description">This is an app that provides movies from a Database Server and show all the recent movies and its detail :)</string>
     <string name="error_text">Oops, something went wrong :(</string>
     <string name="title_activity_main2">MainActivity2</string>

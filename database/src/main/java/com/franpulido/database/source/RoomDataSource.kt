@@ -1,8 +1,10 @@
-package com.franpulido.dbmovies.data.database
+package com.franpulido.database.source
+
 
 import com.franpulido.data.source.LocalDataSource
-import com.franpulido.dbmovies.data.toDomainMovie
-import com.franpulido.dbmovies.data.toRoomMovie
+import com.franpulido.database.MovieDatabase
+import com.franpulido.database.toDomainMovie
+import com.franpulido.database.toRoomMovie
 import com.franpulido.domain.models.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

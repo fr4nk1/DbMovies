@@ -1,7 +1,7 @@
-package com.franpulido.dbmovies.data.source
+package com.franpulido.dbmovies.datasource
 
 import com.franpulido.data.source.RemoteDataSource
-import com.franpulido.dbmovies.data.toDomainMovie
+import com.franpulido.data.mappers.toDomainMovie
 import com.franpulido.domain.models.Movie
 import com.franpulido.network.server.client.TheMovieDb
 

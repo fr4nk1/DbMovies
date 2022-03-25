@@ -39,12 +39,6 @@ class StoryViewFragment : Fragment(R.layout.fragment_story_view) {
 
         imageBg?.loadUrl("${URL_IMAGE}${movie?.posterPath}")
 
-        /*if(movie!!.favorite){
-            imageFavorite.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_favorite) })
-        }else{
-            imageFavorite.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_favorite_border) })
-        }*/
-
         clRoot.setOnClickListener {
             activity?.startActivity<MovieActivity> {
                 putExtra(MovieActivity.MOVIE, movie?.id)
