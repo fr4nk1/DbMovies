@@ -1,17 +1,23 @@
 package com.franpulido.dbmovies.ui.story
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.franpulido.dbmovies.R
 import com.franpulido.dbmovies.ui.common.loadUrl
-import com.franpulido.dbmovies.ui.common.startActivity
 import com.franpulido.dbmovies.ui.detail.MovieActivity
+import com.franpulido.dbmovies.ui.main.listener.ListenerResult
 import com.franpulido.dbmovies.ui.models.MovieModel
 import kotlinx.android.synthetic.main.layout_story_view.*
 
 class StoryViewFragment : Fragment(R.layout.fragment_story_view) {
     private var movie: MovieModel? = null
+    private lateinit var listener : ListenerResult
 
     companion object {
         fun newInstance(storiesDataModel: MovieModel) = StoryViewFragment()
@@ -32,6 +38,10 @@ class StoryViewFragment : Fragment(R.layout.fragment_story_view) {
         setData()
     }
 
+    fun setListener(listener: ListenerResult) {
+        this.listener = listener
+    }
+
     private fun setData() {
         textTitle?.text = movie?.title
         textTitleDescription?.text = movie?.overview
@@ -40,11 +50,18 @@ class StoryViewFragment : Fragment(R.layout.fragment_story_view) {
         imageBg?.loadUrl("${URL_IMAGE}${movie?.posterPath}")
 
         clRoot.setOnClickListener {
-            activity?.startActivity<MovieActivity> {
-                putExtra(MovieActivity.MOVIE, movie?.id)
+            val intent = Intent(activity, MovieActivity::class.java)
+            intent.putExtra(MovieActivity.MOVIE, movie?.id)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity as FragmentActivity)
+            launchDetailActivity.launch(intent, options)
+        }
+    }
+
+    private var launchDetailActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                listener.actionResult()
             }
         }
-
-    }
 
 }

@@ -51,7 +51,7 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         viewModelScope.launch {
             updateViewState { ViewState.Loading }
 
-            movies = getPopularMovies.invoke().distinctBy { it.title }
+            movies = getPopularMovies.invoke()
 
             when (type) {
                 TypeOfSort.Alpha -> sortMoviesByAlpha()

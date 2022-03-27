@@ -18,6 +18,8 @@ import com.franpulido.dbmovies.ui.common.hideWithFadeOut
 import com.franpulido.dbmovies.ui.common.showWithFadeIn
 import com.franpulido.dbmovies.ui.detail.MovieActivity
 import com.franpulido.dbmovies.ui.main.adapter.MoviesAdapter
+import com.franpulido.dbmovies.ui.main.fragment.HomeFragment
+import com.franpulido.dbmovies.ui.main.listener.ListenerResult
 import dagger.hilt.android.AndroidEntryPoint
 
 private typealias MainParent = BaseViewModelActivity<ActivityMainBinding,
@@ -26,11 +28,12 @@ private typealias MainParent = BaseViewModelActivity<ActivityMainBinding,
         MainViewModel>
 
 @AndroidEntryPoint
-class MainActivity : MainParent() {
+class MainActivity : MainParent(), ListenerResult {
 
     private var menuItemAlpha: MenuItem? = null
     private var menuItemVote: MenuItem? = null
     private lateinit var adapter: MoviesAdapter
+    private var fragment: HomeFragment ?= null
 
     companion object {
         const val INFO_BOTTOM_SHEET_FRAGMENT = "InfoFragment"
@@ -67,9 +70,9 @@ class MainActivity : MainParent() {
 
         when (viewState) {
             is MainViewModel.ViewState.Content -> {
-                showIconItemAlpha()
                 binding.fabMode.showWithFadeIn()
                 adapter.movies = viewState.movies.results
+                initFragment()
             }
             MainViewModel.ViewState.Error -> binding.layoutRecycler.layoutError.viewError.showWithFadeIn()
             MainViewModel.ViewState.Init -> viewModel.initUi()
@@ -137,6 +140,21 @@ class MainActivity : MainParent() {
         }
     }
 
+    override fun actionResult() {
+        viewModel.initUi()
+    }
+
+    private fun initFragment() {
+        if(fragment != null) return
+
+        showIconItemAlpha()
+        fragment = HomeFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.flRootViewPager, fragment!!)
+            .commitAllowingStateLoss()
+
+        fragment?.setListener(this)
+    }
 
     private var launchDetailActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -150,11 +168,11 @@ class MainActivity : MainParent() {
     }
 
     private fun showViewPager() {
-        binding.layoutViewPager.flRootViewPager.showWithFadeIn()
+        binding.flRootViewPager.showWithFadeIn()
     }
 
     private fun hideViewPager() {
-        binding.layoutViewPager.flRootViewPager.hideWithFadeOut()
+        binding.flRootViewPager.hideWithFadeOut()
     }
 
     private fun hideRecyclerView() {

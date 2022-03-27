@@ -24,9 +24,12 @@
         android:id="@+id/layoutRecycler"
         layout="@layout/layout_recycler" />
 
-    <include
-        android:id="@+id/layoutViewPager"
-        layout="@layout/layout_viewpager" />
+    <FrameLayout
+        android:id="@+id/flRootViewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:showIn="@layout/activity_main"
+        android:visibility="gone"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMode"

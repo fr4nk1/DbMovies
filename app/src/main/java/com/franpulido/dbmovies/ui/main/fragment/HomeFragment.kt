@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import com.franpulido.dbmovies.databinding.FragmentHomeBinding
 import com.franpulido.dbmovies.ui.common.BaseViewModelFragment
 import com.franpulido.dbmovies.ui.main.adapter.StoriesPagerAdapter
+import com.franpulido.dbmovies.ui.main.listener.ListenerResult
 
 private typealias HomeFragmentParent = BaseViewModelFragment<FragmentHomeBinding,
         HomeViewModel.ViewState,
@@ -14,9 +15,14 @@ private typealias HomeFragmentParent = BaseViewModelFragment<FragmentHomeBinding
         HomeViewModel>
 
 
-class HomeFragment : HomeFragmentParent() {
+class HomeFragment : HomeFragmentParent(), ListenerResult {
 
     private lateinit var storiesPagerAdapter: StoriesPagerAdapter
+    private lateinit var listener : ListenerResult
+
+    companion object {
+        fun newInstance() = HomeFragment()
+    }
 
     override val viewBinding: (LayoutInflater, ViewGroup?) -> FragmentHomeBinding = { layoutInflater, viewGroup ->
         FragmentHomeBinding.inflate(
@@ -37,6 +43,7 @@ class HomeFragment : HomeFragmentParent() {
             is HomeViewModel.ViewState.Content -> {
                 storiesPagerAdapter = StoriesPagerAdapter(this)
                 storiesPagerAdapter.movies = viewState.movies.results
+                storiesPagerAdapter.setListener(this)
                 binding.viewPagerStories.adapter = storiesPagerAdapter
             }
         }
@@ -45,5 +52,13 @@ class HomeFragment : HomeFragmentParent() {
     override fun setupUI() {}
 
     override fun handleViewEvent(viewEvent: HomeViewModel.ViewEvent) {}
+
+    override fun actionResult() {
+        listener.actionResult()
+    }
+
+    fun setListener(listener: ListenerResult) {
+        this.listener = listener
+    }
 
 }
