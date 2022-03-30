@@ -1,4 +1,4 @@
-package com.franpulido.database
+package com.franpulido.database.mappers
 
 import com.franpulido.database.models.MovieEntity
 import com.franpulido.domain.models.Movie

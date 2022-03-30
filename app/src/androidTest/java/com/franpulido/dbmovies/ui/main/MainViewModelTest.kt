@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.franpulido.data.repository.MoviesRepository
-import com.franpulido.data.usecases.GetPopularMovies
+import com.franpulido.data.datasource.TheMovieDbDataSource
+import com.franpulido.data.repository.MoviesDataRepository
 import com.franpulido.database.MovieDatabase
-import com.franpulido.database.source.RoomDataSource
+import com.franpulido.database.datasource.RoomDataSource
 import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.datasource.TheMovieDbDataSource
+import com.franpulido.domain.usecases.GetPopularMovies
 import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test
@@ -31,7 +31,7 @@ class MainViewModelTest : TestCase() {
 
         val localDataSource = RoomDataSource(db)
         val remoteDataSource = TheMovieDbDataSource()
-        val moviesRepository = MoviesRepository(localDataSource, remoteDataSource, context.getString(
+        val moviesRepository = MoviesDataRepository(localDataSource, remoteDataSource, context.getString(
             R.string.api_key))
         val getPopularMovies = GetPopularMovies(moviesRepository)
         viewModel = MainViewModel(getPopularMovies)

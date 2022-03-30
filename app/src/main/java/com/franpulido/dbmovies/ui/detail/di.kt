@@ -1,9 +1,9 @@
 package com.franpulido.dbmovies.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
-import com.franpulido.data.repository.MoviesRepository
-import com.franpulido.data.usecases.FindMovieById
-import com.franpulido.data.usecases.UpdateMovieFavorite
+import com.franpulido.data.repository.MoviesDataRepository
+import com.franpulido.domain.usecases.FindMovieById
+import com.franpulido.domain.usecases.UpdateMovieFavorite
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,10 +15,10 @@ import javax.inject.Named
 class MovieActivityModule {
 
     @Provides
-    fun findMovieByIdProvider(moviesRepository: MoviesRepository) = FindMovieById(moviesRepository)
+    fun findMovieByIdProvider(moviesRepository: MoviesDataRepository) = FindMovieById(moviesRepository)
 
     @Provides
-    fun updateMovieFavoriteProvider(moviesRepository: MoviesRepository) =
+    fun updateMovieFavoriteProvider(moviesRepository: MoviesDataRepository) =
         UpdateMovieFavorite(moviesRepository)
 
     @Provides

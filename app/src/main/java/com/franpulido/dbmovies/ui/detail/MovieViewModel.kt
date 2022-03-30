@@ -1,8 +1,8 @@
 package com.franpulido.dbmovies.ui.detail
 
 import androidx.lifecycle.viewModelScope
-import com.franpulido.data.usecases.FindMovieById
-import com.franpulido.data.usecases.UpdateMovieFavorite
+import com.franpulido.domain.usecases.FindMovieById
+import com.franpulido.domain.usecases.UpdateMovieFavorite
 import com.franpulido.dbmovies.ui.common.BaseViewModel
 import com.franpulido.domain.models.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,12 +34,12 @@ class MovieViewModel @Inject constructor(
     }
 
     private fun findMovie() = viewModelScope.launch {
-        movie = findMovieById.invoke(movieId)
+        movie = findMovieById(movieId)
         updateViewState { ViewState.Content(movie) }
     }
 
     fun onFavoriteClicked() = viewModelScope.launch {
-        val movieUpdated = updateMovieFavorite.invoke(movie)
+        val movieUpdated = updateMovieFavorite(movie)
         sendViewEvent(ViewEvent.FavoriteClicked(movieUpdated))
     }
 

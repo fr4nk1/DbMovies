@@ -1,11 +1,11 @@
 package com.franpulido.dbmovies.ui.main
 
 import androidx.lifecycle.viewModelScope
-import com.franpulido.data.usecases.GetPopularMovies
 import com.franpulido.dbmovies.ui.common.BaseViewModel
 import com.franpulido.dbmovies.ui.models.MovieModel
 import com.franpulido.dbmovies.ui.models.MoviesModel
 import com.franpulido.domain.models.Movie
+import com.franpulido.domain.usecases.GetPopularMovies
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,7 +51,7 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         viewModelScope.launch {
             updateViewState { ViewState.Loading }
 
-            movies = getPopularMovies.invoke()
+            movies = getPopularMovies()
 
             when (type) {
                 TypeOfSort.Alpha -> sortMoviesByAlpha()

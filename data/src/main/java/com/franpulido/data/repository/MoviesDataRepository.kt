@@ -1,16 +1,17 @@
 package com.franpulido.data.repository
 
-import com.franpulido.data.source.LocalDataSource
-import com.franpulido.data.source.RemoteDataSource
+import com.franpulido.data.datasource.LocalDataSource
+import com.franpulido.data.datasource.RemoteDataSource
 import com.franpulido.domain.models.Movie
+import com.franpulido.domain.repository.MoviesRepository
 
-class MoviesRepository(
+class MoviesDataRepository(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
     private val apiKey: String
-) {
+) :  MoviesRepository {
 
-    suspend fun getPopularMovies(): List<Movie> {
+    override suspend fun getPopularMovies(): List<Movie> {
         if (localDataSource.isEmpty()) {
             val movies = remoteDataSource.getPopularMovies(apiKey)
             localDataSource.saveMovies(movies)
@@ -19,7 +20,7 @@ class MoviesRepository(
         return localDataSource.getPopularMovies()
     }
 
-    suspend fun findById(id: Int): Movie = localDataSource.findById(id)
+    override suspend fun findById(id: Int): Movie = localDataSource.findById(id)
 
-    suspend fun update(movie: Movie) = localDataSource.update(movie)
+    override suspend fun update(movie: Movie) = localDataSource.update(movie)
 }

@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.franpulido.data.repository.MoviesRepository
-import com.franpulido.data.usecases.FindMovieById
-import com.franpulido.data.usecases.UpdateMovieFavorite
+import com.franpulido.data.datasource.TheMovieDbDataSource
+import com.franpulido.data.repository.MoviesDataRepository
+import com.franpulido.domain.usecases.FindMovieById
+import com.franpulido.domain.usecases.UpdateMovieFavorite
 import com.franpulido.database.MovieDatabase
-import com.franpulido.database.source.RoomDataSource
+import com.franpulido.database.datasource.RoomDataSource
 import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.datasource.TheMovieDbDataSource
 import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test
@@ -32,7 +32,7 @@ class MovieViewModelTest : TestCase() {
 
         val localDataSource = RoomDataSource(db)
         val remoteDataSource = TheMovieDbDataSource()
-        val moviesRepository = MoviesRepository(localDataSource, remoteDataSource, context.getString(
+        val moviesRepository = MoviesDataRepository(localDataSource, remoteDataSource, context.getString(
             R.string.api_key))
         val findMovieById = FindMovieById(moviesRepository)
         val updateMovieFavorite = UpdateMovieFavorite(moviesRepository)

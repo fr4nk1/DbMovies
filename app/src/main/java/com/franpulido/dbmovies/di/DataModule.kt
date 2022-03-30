@@ -1,8 +1,8 @@
 package com.franpulido.dbmovies.di
 
-import com.franpulido.data.repository.MoviesRepository
-import com.franpulido.data.source.LocalDataSource
-import com.franpulido.data.source.RemoteDataSource
+import com.franpulido.data.datasource.LocalDataSource
+import com.franpulido.data.datasource.RemoteDataSource
+import com.franpulido.data.repository.MoviesDataRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +18,5 @@ class DataModule {
         localDataSource: LocalDataSource,
         remoteDataSource: RemoteDataSource,
         @Named("apiKey") apiKey: String
-    ) = MoviesRepository(localDataSource, remoteDataSource, apiKey)
+    ) = MoviesDataRepository(localDataSource, remoteDataSource, apiKey)
 }

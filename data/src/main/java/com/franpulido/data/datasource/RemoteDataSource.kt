@@ -1,4 +1,4 @@
-package com.franpulido.data.source
+package com.franpulido.data.datasource
 
 import com.franpulido.domain.models.Movie
 

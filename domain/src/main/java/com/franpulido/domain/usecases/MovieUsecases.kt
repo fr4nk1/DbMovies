@@ -1,14 +1,14 @@
-package com.franpulido.data.usecases
+package com.franpulido.domain.usecases
 
-import com.franpulido.data.repository.MoviesRepository
 import com.franpulido.domain.models.Movie
+import com.franpulido.domain.repository.MoviesRepository
 
 class FindMovieById(private val moviesRepository: MoviesRepository) {
-    suspend fun invoke(id: Int): Movie = moviesRepository.findById(id)
+    suspend operator fun invoke(id: Int): Movie = moviesRepository.findById(id)
 }
 
 class GetPopularMovies(private val moviesRepository: MoviesRepository) {
-    suspend fun invoke(): List<Movie> = try{
+    suspend operator fun invoke(): List<Movie> = try{
         moviesRepository.getPopularMovies()
     }catch (e: Exception){
         emptyList()
@@ -16,7 +16,7 @@ class GetPopularMovies(private val moviesRepository: MoviesRepository) {
 }
 
 class UpdateMovieFavorite(private val moviesRepository: MoviesRepository) {
-    suspend fun invoke(movie: Movie): Movie = with(movie) {
+    suspend operator fun invoke(movie: Movie): Movie = with(movie) {
         copy(favorite = !favorite).also { moviesRepository.update(it) }
     }
 }
