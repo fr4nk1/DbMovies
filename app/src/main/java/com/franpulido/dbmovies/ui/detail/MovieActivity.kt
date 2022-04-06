@@ -50,14 +50,16 @@ class MovieActivity : MovieParent() {
 
     override fun handleViewEvent(viewEvent: MovieViewModel.ViewEvent) {
         when (viewEvent) {
-            is MovieViewModel.ViewEvent.FavoriteClicked -> setFavoriteIcon(viewEvent.movie)
+            is MovieViewModel.ViewEvent.FavoriteClicked -> {
+                setFavoriteIcon(viewEvent.movie)
+                setResult(Activity.RESULT_OK)
+            }
         }
     }
 
     override fun setupUI() {
         binding.movieDetailFavorite.setOnClickListener {
             viewModel.onFavoriteClicked()
-            setResult(Activity.RESULT_OK)
         }
     }
 

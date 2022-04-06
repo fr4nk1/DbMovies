@@ -40,9 +40,7 @@ class MainViewModel @Inject constructor(private val getPopularMovies: GetPopular
         object Vote : TypeOfSort()
     }
 
-    override suspend fun getInitialViewState(): ViewState = refresh()
-
-    private fun refresh(): ViewState {
+    override suspend fun getInitialViewState(): ViewState {
         type = TypeOfSort.Nothing
         return ViewState.Init
     }

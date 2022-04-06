@@ -1,4 +1,4 @@
-package com.franpulido.dbmovies.ui.story
+package com.franpulido.dbmovies.ui.main.story
 
 import android.app.Activity
 import android.content.Intent

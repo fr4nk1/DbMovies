@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.franpulido.dbmovies.ui.common.basicDiffUtil
 import com.franpulido.dbmovies.ui.main.listener.ListenerResult
+import com.franpulido.dbmovies.ui.main.story.StoryViewFragment
 import com.franpulido.dbmovies.ui.models.MovieModel
-import com.franpulido.dbmovies.ui.story.StoryViewFragment
 
 class StoriesPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

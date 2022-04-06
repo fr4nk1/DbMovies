@@ -32,8 +32,8 @@ import androidx.core.content.ContextCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.franpulido.dbmovies.R
-import com.franpulido.dbmovies.ui.models.MovieModel
 import com.franpulido.dbmovies.ui.main.adapter.MoviesAdapter
+import com.franpulido.dbmovies.ui.models.MovieModel
 
 const val TITLE_TEST_TAG = "TitleTestTag"
 const val VOTE_TEST_TAG = "VoteTestTag"
@@ -60,7 +60,7 @@ fun MovieAdapterItem(movie: MovieModel, context: Context, listener: (MovieModel)
             Box {
                 Image(
                     painter = rememberImagePainter("${MoviesAdapter.URL_IMAGE}${movie.posterPath}"),
-                    contentDescription = "${movie.title}",
+                    contentDescription = movie.title,
                     modifier = Modifier
                         .aspectRatio(0.7f)
                         .padding(8.dp)
